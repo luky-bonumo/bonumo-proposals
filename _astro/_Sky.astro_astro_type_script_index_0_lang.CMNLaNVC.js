@@ -73,5 +73,10 @@ void main(){
   vec2 p = (uv-.5)*vec2(uRes.x/uRes.y, 1.)*1.7;
   vec3 c = uMode == 0 ? mesh(p, uTime) : uMode == 1 ? flow(p, uTime) : fluted(uv, p, uTime);
   float fade = smoothstep(.2, .95, 1.-uv.y);
-  gl_FragColor = vec4(mix(c, vec3(1.), fade), 1.);
+  vec3 col = mix(c, vec3(1.), fade);
+  // A little dither, so the last 8-bit steps into white do not line up as a
+  // visible contour across the page. It dies out just before pure white.
+  float n = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233)))*43758.5453)-.5;
+  col += n*1.5/255.*min(1., (1.-fade)*40.);
+  gl_FragColor = vec4(col, 1.);
 }`)),o.linkProgram(c),!o.getProgramParameter(c,o.LINK_STATUS))return;o.useProgram(c),o.bindBuffer(o.ARRAY_BUFFER,o.createBuffer()),o.bufferData(o.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),o.STATIC_DRAW);let l=o.getAttribLocation(c,`p`);o.enableVertexAttribArray(l),o.vertexAttribPointer(l,2,o.FLOAT,!1,0,0);let u=e=>o.getUniformLocation(c,e);o.uniform1i(u(`uMode`),e[a]),i.dataset.colors.split(`,`).forEach((e,t)=>{let n=parseInt(e.slice(1),16);o.uniform3f(u(`uC${t}`),(n>>16)/255,(n>>8&255)/255,(n&255)/255)});let d=u(`uRes`),f=u(`uTime`),p=u(`uRibs`),m=()=>{let e=Math.max(1,Math.round(i.clientWidth*n[a])),t=Math.max(1,Math.round(i.clientHeight*n[a]));(i.width!==e||i.height!==t)&&(i.width=e,i.height=t,o.viewport(0,0,e,t)),o.uniform2f(d,e,t),o.uniform1f(p,i.clientWidth/r)},h=e=>{o.uniform1f(f,20+e/1e3*t[a]),o.drawArrays(o.TRIANGLES,0,3)},g=matchMedia(`(prefers-reduced-motion: reduce)`).matches,_=!0,v=0,y=e=>{h(e),v=requestAnimationFrame(y)},b=()=>{cancelAnimationFrame(v),!g&&_&&!document.hidden&&(v=requestAnimationFrame(y))};new ResizeObserver(()=>{m(),h(performance.now())}).observe(i),new IntersectionObserver(([e])=>{_=e.isIntersecting,b()}).observe(i),document.addEventListener(`visibilitychange`,b),m(),h(performance.now()),b()}document.querySelectorAll(`canvas[data-sky]`).forEach(i);
