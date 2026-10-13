@@ -1,4 +1,4 @@
-var e={mesh:0,flow:1,fluted:2},t={mesh:.14,flow:.17,fluted:.12},n={mesh:.5,flow:.5,fluted:.8},r=46;function i(i){let a=i.dataset.sky,o=i.getContext(`webgl`,{antialias:!1,alpha:!1,powerPreference:`low-power`});if(!o)return;let s=(e,t)=>{let n=o.createShader(e);return o.shaderSource(n,t),o.compileShader(n),n},c=o.createProgram();if(o.attachShader(c,s(o.VERTEX_SHADER,`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`)),o.attachShader(c,s(o.FRAGMENT_SHADER,`
+var e={mesh:0,flow:1,fluted:2,pastel:2},t={mesh:.14,flow:.17,fluted:.12,pastel:.12},n={mesh:.5,flow:.5,fluted:.8,pastel:.8},r=46;function i(i){let a=i.dataset.sky,o=i.getContext(`webgl`,{antialias:!1,alpha:!1,powerPreference:`low-power`});if(!o)return;let s=(e,t)=>{let n=o.createShader(e);return o.shaderSource(n,t),o.compileShader(n),n},c=o.createProgram();if(o.attachShader(c,s(o.VERTEX_SHADER,`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`)),o.attachShader(c,s(o.FRAGMENT_SHADER,`
 precision highp float;
 uniform vec2 uRes;
 uniform float uTime;
