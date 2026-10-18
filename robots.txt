@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+# Design proposals and review pages are not part of the site.
+Disallow: /proposals/
+
+Sitemap: https://bonumo.com/sitemap-index.xml
